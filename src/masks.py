@@ -16,7 +16,7 @@ def mask_card_number(card_number: str) -> str:
     return masked_number
 
 
-def mask_info(info):
+def mask_info(info: str) -> str:
     if info.startswith('Счет'):
         return mask_account_number(info.split()[1])
     elif info.startswith('Mastercard'):
