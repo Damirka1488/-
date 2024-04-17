@@ -15,6 +15,7 @@ def mask_card_number(card_number: str) -> str:
     masked_number = first_six + " " + average_two + "** **** " + last_four
     return masked_number
 
+
 def mask_info(info):
     if info.startswith('Счет'):
         return mask_account_number(info.split()[1])
