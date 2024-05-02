@@ -3,7 +3,7 @@ from typing import Dict, List, Optional
 
 def filter_by_state_and_date(
     list_of_dicts: List[Dict], state: str = "EXECUTED", date: Optional[str] = None
-) -> (List)[Dict]:
+) -> (List[Dict]):
     """Фильтрует список словарей по состоянию и дате."""
     filtered_list = []
     for d in list_of_dicts:
