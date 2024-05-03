@@ -1,5 +1,7 @@
+from typing import Any, Dict, List, Optional, Union
+
 import pytest
-from typing import List, Dict, Union
+
 from src.processing import filter_by_state_and_date, sort_by_date
 
 
@@ -7,7 +9,7 @@ from src.processing import filter_by_state_and_date, sort_by_date
 def sample_data() -> List[Dict[str, Union[int, str]]]:
     return [
         {"id": 1, "state": "EXECUTED", "date": "2024-04-25T08:21:33.419441"},
-        {"id": 2, "state": "PENDING", "date": "2024-04-25T10:15:42.123456"}
+        {"id": 2, "state": "PENDING", "date": "2024-04-25T10:15:42.123456"},
     ]
 
 
@@ -23,7 +25,9 @@ def sample_data() -> List[Dict[str, Union[int, str]]]:
         (3, "PENDING", None, [{"id": 2, "state": "PENDING", "date": "2024-04-25T10:15:42.123456"}]),
     ],
 )
-def test_filter_by_state_and_date(sample_data, id, state, date, expected_result) -> None:
+def test_filter_by_state_and_date(
+    sample_data: List[Dict[str, Any]], id: Any, state: str, date: Optional[str], expected_result: List[Dict[str, Any]]
+) -> None:
     assert filter_by_state_and_date(sample_data, state=state, date=date) == expected_result
 
 
