@@ -4,6 +4,7 @@ from typing import Callable, Any
 
 
 def log(func: Callable) -> Callable:
+    """Декоратор, который логирует вызов функции с именем и временем."""
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         result_num = func(*args, **kwargs)
