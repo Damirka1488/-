@@ -4,4 +4,3 @@
 2024-05-07 11:54:25 my_function ok
 2024-05-07 11:54:25 my_function ok
 2024-05-07 11:54:25 my_function ok
-2024-05-07 11:54:25 my_function ok
