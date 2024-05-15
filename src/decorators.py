@@ -2,6 +2,7 @@ from functools import wraps
 from datetime import datetime
 from typing import Callable, Any
 
+
 def log(func: Callable, filename='') -> Callable:
     """Декоратор, который логирует вызов функции с именем и временем."""
 
