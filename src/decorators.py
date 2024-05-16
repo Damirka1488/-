@@ -3,19 +3,31 @@ from datetime import datetime
 from typing import Callable, Any
 
 
-def log(func: Callable, filename='') -> Callable:
+def log(func: Callable, filename: str = None) -> Callable:
     """Декоратор, который логирует вызов функции с именем и временем."""
+    filename = 'mylog.txt'
 
     @wraps(func)
     def wrapper(args: Any, *kwargs: Any) -> Any:
-        result_num = func(args, *kwargs)
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         try:
-            with open(filename, 'a', encoding='utf-8') as log_file:
-                log_file.write(f'{current_time} {func.__name__} ok\n')
-        except FileNotFoundError:
-            print(f'{current_time} {func.__name__} ok')
-        return result_num
+            result = func(args, *kwargs)
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            log_message = f'{current_time} {func.__name__} ok'
+            if filename:
+                with open(filename, 'a', encoding='utf-8') as log_file:
+                    log_file.write(f'{log_message}\n')
+            else:
+                print(log_message)
+            return result
+        except Exception as e:
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            error_message = f'{current_time} {func.__name__} error: {type(e).__name__}. Inputs: {args}, {kwargs}'
+            if filename:
+                with open(filename, 'a', encoding='utf-8') as log_file:
+                    log_file.write(f'{error_message}\n')
+            else:
+                print(error_message)
+            raise
 
     return wrapper
 
@@ -26,5 +38,4 @@ def my_function(element_one: int, element_two: int) -> int:
     return element_one + element_two
 
 
-# Пример
-result = my_function(3, 4)
+my_function(3, 4)
