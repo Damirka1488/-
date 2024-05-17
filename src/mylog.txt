@@ -1,7 +1,0 @@
-2024-05-14 10:44:33 my_function ok
-2024-05-14 10:59:10 my_function ok
-2024-05-14 10:59:18 my_function ok
-2024-05-14 11:07:20 my_function ok
-2024-05-14 11:07:25 my_function ok
-2024-05-15 10:30:41 my_function ok
-2024-05-15 10:56:49 my_function ok

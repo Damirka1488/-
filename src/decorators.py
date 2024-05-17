@@ -3,9 +3,8 @@ from datetime import datetime
 from typing import Callable, Any
 
 
-def log(func: Callable, filename: str = None) -> Callable:
+def log(func: Callable, filename: str = 'mylog.txt') -> Callable:
     """Декоратор, который логирует вызов функции с именем и временем."""
-    filename = 'mylog.txt'
 
     @wraps(func)
     def wrapper(args: Any, *kwargs: Any) -> Any:
