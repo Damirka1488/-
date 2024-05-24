@@ -1,7 +1,6 @@
 import unittest
 from typing import Any
-from unittest.mock import patch
-
+from unittest.mock import patch, MagicMock
 from src.utils import convert_amount_to_rub, load_financial_transactions
 
 
@@ -25,12 +24,13 @@ class TestConvertAmountToRUB(unittest.TestCase):
         rub_amount = convert_amount_to_rub(transaction)
         self.assertIsNone(rub_amount)
 
-    @patch('builtins.open')
-    def test_load_financial_transactions_file_opened(self, mock_open):
-        mock_open.return_value.__enter__.return_value.read.return_value = ('[{"transaction_id": 1, "amount": 100},'
-                                                                           ' {"transaction_id": 2, "amount": 200}]')
+    @unittest.mock.patch('builtins.open', new_callable=unittest.mock.mock_open)
+    def test_load_financial_transactions_file_opened(self, mock_open: MagicMock) -> None:
+        mock_open.return_value.__enter__.return_value.read.return_value = (
+            '[{"transaction_id": 1, "amount": 100},' ' {"transaction_id": 2, "amount": 200}]'
+        )
 
-    result = load_financial_transactions('test.json')
+    result = load_financial_transactions("test.json")
     expected_result = [{"transaction_id": 1, "amount": 100}, {"transaction_id": 2, "amount": 200}]
 
 
