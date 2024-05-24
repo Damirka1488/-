@@ -52,7 +52,7 @@ def test_transaction_descriptions() -> None:
 def card_number_generator(start: int, end: int) -> Generator[str, None, None]:
     for _ in range(start, end + 1):
         generated_card_number = "".join(str(randint(1, 9)) for _ in range(16))
-        yield " ".join(generated_card_number[i: i + 4] for i in range(0, len(generated_card_number), 4))
+        yield " ".join(generated_card_number[i : i + 4] for i in range(0, len(generated_card_number), 4))
 
 
 def test_card_number_generator() -> None:
