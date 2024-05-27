@@ -1,30 +1,27 @@
 import unittest
-from typing import Any
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from src.utils import convert_amount_to_rub, load_financial_transactions
 
 
-class TestConvertAmountToRUB(unittest.TestCase):
+class TestConvertAmountToRub(unittest.TestCase):
 
-    @patch("requests.get")
-    def test_convert_amount_to_rub_usd(self, mock_get: Any) -> None:
-        mock_response = mock_get.return_value
-        mock_response.json.return_value = {"rates": {"RUB": 75}}
+    @patch("src.utils.currency_rate")
+    def test_convert_amount_to_rub(self, mock_currency_rate: MagicMock) -> None:
+        mock_currency_rate.return_value = 70.0
 
-        transaction = {"amount": 100, "currency": "USD"}
-        rub_amount = convert_amount_to_rub(transaction)
-        self.assertEqual(rub_amount, 7500.0)
+        test_transaction = {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+        }
 
-    @patch("requests.get")
-    def test_convert_amount_to_rub_invalid_currency(self, mock_get: Any) -> None:
-        mock_response = mock_get.return_value
-        mock_response.json.return_value = {}
+        total_sum = convert_amount_to_rub(test_transaction)
 
-        transaction = {"amount": 100, "currency": "JPY"}
-        rub_amount = convert_amount_to_rub(transaction)
-        self.assertIsNone(rub_amount)
+        self.assertEqual(total_sum, 43318.34)
 
-    @unittest.mock.patch('builtins.open', new_callable=unittest.mock.mock_open)
+    @unittest.mock.patch("builtins.open", new_callable=unittest.mock.mock_open)
     def test_load_financial_transactions_file_opened(self, mock_open: MagicMock) -> None:
         mock_open.return_value.__enter__.return_value.read.return_value = (
             '[{"transaction_id": 1, "amount": 100},' ' {"transaction_id": 2, "amount": 200}]'

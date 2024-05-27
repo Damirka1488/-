@@ -1,9 +1,10 @@
 import json
 import os
-from typing import Any, Dict, List, Union
+from typing import Dict, List
 
-import requests
 from dotenv import load_dotenv
+
+from src.API import currency_rate
 
 load_dotenv()
 
@@ -31,32 +32,28 @@ if __name__ == "__main__":
     print(transactions)
 
 
-def convert_amount_to_rub(transaction_sum: Dict[str, Any]) -> Union[float, None]:
-    """Функция для конвертации суммы транзакции в рубли."""
-    amount = transaction_sum.get("amount", 0)
-    currency = transaction_sum.get("currency", "RUB").upper()
-
+def convert_amount_to_rub(transaction: Dict) -> float:
+    """Сумма всех транзакции."""
+    total = 0.0
+    amount = float(transaction.get("operationAmount", {}).get("amount", 0.0))
+    currency = transaction.get("operationAmount", {}).get("currency", {}).get("code")
     if currency == "RUB":
-        return amount
-    if currency not in ["USD", "EUR"]:
-        return None
-
-    url = f"https://api.exchangerate-api.com/v4/latest/{currency}"
-
-    response = requests.get(url)
-    data = response.json()
-
-    if "rates" not in data:
-        return None
-
-    rate = data["rates"].get("RUB", 1)
-    converted_amount = amount * rate
-
-    return float(converted_amount)
+        total += amount
+    elif currency == "USD":
+        total += amount * currency_rate("USD")
+    elif currency == "EUR":
+        total += amount * currency_rate("EUR")
+    return total
 
 
 # Пример
 if __name__ == "__main__":
-    transaction = {"amount": 1000.56, "currency": "RUB"}
-    rub_amount = convert_amount_to_rub(transaction)
-    print(rub_amount)
+    total_sum = convert_amount_to_rub(
+        {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+        }
+    )
+    print(total_sum)
