@@ -4,7 +4,7 @@ from typing import Dict, List
 
 from dotenv import load_dotenv
 
-from src.API import currency_rate
+from src.external_api import currency_rate
 
 load_dotenv()
 
