@@ -5,6 +5,9 @@ from typing import Dict, List
 from dotenv import load_dotenv
 
 from src.external_api import currency_rate
+from src.logger import setup_logging
+
+logger = setup_logging()
 
 load_dotenv()
 
@@ -13,16 +16,20 @@ API_KEY = os.getenv("api_key")
 
 def load_financial_transactions(file_path: str) -> List[Dict]:
     """Функция для чтения данных о финансовых транзакциях из JSON-файла."""
-    if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+    try:
+        if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+            return []
+
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        if not isinstance(data, list):
+            return []
+
+        return data
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        logger.error(f"Ошибка чтения JSON-файла: {e}")
         return []
-
-    with open(file_path, "r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    if not isinstance(data, list):
-        return []
-
-    return data
 
 
 # Пример
@@ -43,6 +50,10 @@ def convert_amount_to_rub(transaction: Dict) -> float:
         total += amount * currency_rate("USD")
     elif currency == "EUR":
         total += amount * currency_rate("EUR")
+    else:
+        logger.warning(f"Неизвестная валюта: {currency}")
+
+    logger.info(f"Сумма транзакции: {total} RUB")
     return total
 
 
