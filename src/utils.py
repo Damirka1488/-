@@ -18,15 +18,18 @@ def load_financial_transactions(file_path: str) -> List[Dict]:
     """Функция для чтения данных о финансовых транзакциях из JSON-файла."""
     try:
         if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
+            logger.error("Файл с транзакциями не найден или пуст")
             return []
 
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
 
-        if not isinstance(data, list):
+        if isinstance(data, list):
+            logger.info("Данные успешно выведены в консоль")
+            return data
+        else:
+            logger.error("Данные не являются списком")
             return []
-
-        return data
     except (FileNotFoundError, json.JSONDecodeError) as e:
         logger.error(f"Ошибка чтения JSON-файла: {e}")
         return []
@@ -51,8 +54,7 @@ def convert_amount_to_rub(transaction: Dict) -> float:
     elif currency == "EUR":
         total += amount * currency_rate("EUR")
     else:
-        logger.warning(f"Неизвестная валюта: {currency}")
-
+        logger.error(f"Неизвестная валюта: {currency}")
     logger.info(f"Сумма транзакции: {total} RUB")
     return total
 
