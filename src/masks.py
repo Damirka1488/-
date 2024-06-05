@@ -27,7 +27,3 @@ def mask_card_number(card_number: str) -> str:
     else:
         logger.error("Функция mask_card_number работает неприавильно")
         return "Неправильный номер карты"
-
-
-mask_account_number("1234")
-mask_card_number("1111222233334444")

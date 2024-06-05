@@ -22,7 +22,5 @@ def read_transactions_from_excel(file_path: str) -> List[Dict]:
 
 
 # Пример использования
-operations_excel = read_transactions_from_excel("../data/transactions_excel.xlsx")
-print(operations_excel)
-operations_csv = read_transactions_from_csv("../data/transactions.csv")
-print(operations_csv)
+operations_excel = read_transactions_from_excel("data/transactions_excel.xlsx")
+operations_csv = read_transactions_from_csv("data/transactions.csv")

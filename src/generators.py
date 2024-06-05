@@ -20,10 +20,6 @@ transactions = [
     {"id": 895315941, "operationAmount": {"currency": {"name": "USD", "code": "USD"}}},
 ]
 
-filtered_transactions = filter_by_currency(transactions, "USD")
-for transaction in filtered_transactions:
-    print(transaction)
-
 
 def transaction_descriptions(transactions_translate: List[dict]) -> Generator[str, None, None]:
     """
@@ -44,9 +40,6 @@ transactions = [
 
 descriptions = transaction_descriptions(transactions)
 
-for transaction in transactions:
-    print(next(descriptions))
-
 
 def card_number_generator(start: int, end: int) -> Generator[str, None, None]:
     """
@@ -54,8 +47,4 @@ def card_number_generator(start: int, end: int) -> Generator[str, None, None]:
     """
     for _ in range(start, end + 1):
         generated_card_number = "".join(str(randint(1, 9)) for _ in range(16))
-        yield " ".join(generated_card_number[i : i + 4] for i in range(0, len(generated_card_number), 4))
-
-
-for number in card_number_generator(1, 5):
-    print(number)
+        yield " ".join(generated_card_number[i: i + 4] for i in range(0, len(generated_card_number), 4))

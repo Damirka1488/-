@@ -2,7 +2,7 @@ from typing import Dict, List, Union
 
 
 def filter_by_state_and_date(
-    list_of_dicts: List[Dict], state: str = "EXECUTED", date: Union[str, None] = None
+        list_of_dicts: List[Dict], state: str = "EXECUTED", date: Union[str, None] = None
 ) -> List[Dict]:
     """Фильтрует список словарей по состоянию и дате."""
     filtered_list = []
@@ -17,6 +17,6 @@ def filter_by_state_and_date(
     return filtered_list
 
 
-def sort_by_date(data: list[dict], reverse: bool = True) -> list[dict]:
+def sort_by_date(data: List[Dict], reverse: bool = True) -> List[Dict]:
     """Сортирует список словарей по убыванию даты."""
     return sorted(data, key=lambda x: x["date"], reverse=reverse)
