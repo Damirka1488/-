@@ -1,5 +1,6 @@
-from typing import List, Dict, Any, Set
+from typing import List, Dict, Any
 import re
+from collections import Counter
 
 
 def search_transactions_by_description(transactions_des: List[Dict[str, Any]], by_search_string: str) -> (
@@ -12,12 +13,12 @@ def search_transactions_by_description(transactions_des: List[Dict[str, Any]], b
     return result
 
 
-def count_transactions_by_category(transactions_cat: List[Dict[str, Any]], by_categories: Set[str]) -> Dict[str, int]:
-    category_counts = {category: 0 for category in by_categories}
+def count_transactions_by_category(transactions_cat: List[Dict[str, Any]]) -> Dict[str, int]:
+    category_counts = Counter()
     for transaction_cat in transactions_cat:
         category = transaction_cat.get("category", "Uncategorized")
         category_counts[category] += 1
-    return category_counts
+    return dict(category_counts)
 
 
 transactions = [
@@ -33,5 +34,5 @@ result_search = search_transactions_by_description(transactions, search_string)
 print(result_search)
 
 categories = {"Питание", "ЖКХ", "Развлечения"}
-result_count = count_transactions_by_category(transactions, categories)
+result_count = count_transactions_by_category(transactions)
 print(result_count)
