@@ -19,6 +19,13 @@ def mask_info(info: str) -> str:
 
 def format_date(date_str: str) -> str:
     """Получает дату в формате 2018-07-11T02:26:18.671407 и выводит 11.07.2018"""
-    date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
+    try:
+        # Попытка обработать дату с микросекундами
+        date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%f")
+    except ValueError:
+        # Попытка обработать дату без микросекунд, если предыдущий формат не подошёл
+        date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
+
+        # Форматирование даты в формат DD.MM.YYYY
     formatted_date = date_obj.strftime("%d.%m.%Y")
     return formatted_date

@@ -37,8 +37,7 @@ def load_financial_transactions(file_path: str) -> List[Dict]:
 
 # Пример
 if __name__ == "__main__":
-    file_path_1 = os.path.join("C:\\Users\\Student Free\\Desktop\\10.1homework\\data", "operations.json")
-    transactions = load_financial_transactions(file_path_1)
+    transactions = load_financial_transactions("data/operations.json")
     print(transactions)
 
 

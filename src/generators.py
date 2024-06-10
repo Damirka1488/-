@@ -13,7 +13,7 @@ def filter_by_currency(transactions_item: list[Dict[str, Any]], currency_code: s
 
 
 # Примеры
-transactions = [
+transactions_1 = [
     {"id": 939719570, "operationAmount": {"currency": {"name": "USD", "code": "USD"}}},
     {"id": 142264268, "operationAmount": {"currency": {"name": "USD", "code": "USD"}}},
     {"id": 873106923, "operationAmount": {"currency": {"name": "RUB", "code": "RUB"}}},
@@ -30,7 +30,7 @@ def transaction_descriptions(transactions_translate: List[dict]) -> Generator[st
 
 
 # Примеры
-transactions = [
+transactions_2 = [
     {"id": 1, "description": "Перевод организации"},
     {"id": 2, "description": "Перевод со счета на счет"},
     {"id": 3, "description": "Перевод со счета на счет"},
@@ -38,7 +38,7 @@ transactions = [
     {"id": 5, "description": "Перевод организации"},
 ]
 
-descriptions = transaction_descriptions(transactions)
+descriptions = transaction_descriptions(transactions_2)
 
 
 def card_number_generator(start: int, end: int) -> Generator[str, None, None]:

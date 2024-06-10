@@ -15,7 +15,7 @@ def file_format() -> Tuple[List[Dict], str]:
         if file == "1":
             print("Для обработки выбран json файл.")
             return (
-                load_financial_transactions("C:\\Users\\Student Free\\Desktop\\10.1homework\\data\\operations.json"),
+                load_financial_transactions("data/operations.json"),
                 "json",
             )
         elif file == "2":
@@ -49,7 +49,7 @@ def sort_date_currency(data: List[Dict], file: str) -> List[Dict]:
         if increase.upper() == "ВОЗРАСТАНИЮ":
             data = sort_by_date(data)
         elif increase.upper() == "УБЫВАНИЮ":
-            data = sort_by_date(data, "reverse")
+            data = sort_by_date(data, reverse="reverse")
         else:
             print("Некорректное значение, повторите ввод")
             return sort_date_currency(data, file)
@@ -76,7 +76,6 @@ def display_transactions(transactions: List[Dict]) -> None:
 
     if total_transactions:
         print(f"Количество операций: {total_transactions}\n")
-
         for transaction in transactions_list:
             transaction_date = format_date(transaction["date"])
             transaction_description = transaction["description"]
